@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Resultados WOD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Conversor de Resultados WOD</h1>
+            <p>Calcule a conversão de seus treinos RX e Scale facilmente.</p>
+        </header>
+        
+        <main class="calculator-card">
+            <form id="converter-form">
+                
+                <!-- WOD Type -->
+                <div class="form-group">
+                    <label for="wod-type">Tipo de WOD</label>
+                    <select id="wod-type" required>
+                        <option value="" disabled selected>Selecione o tipo de WOD</option>
+                        <option value="for-time">For Time</option>
+                        <option value="amrap">AMRAP</option>
+                    </select>
+                </div>
+
+                <!-- Result -->
+                <div class="form-group" id="result-group" style="display: none;">
+                    <label for="result-input" id="result-label">Resultado</label>
+                    <!-- For AMRAP -->
+                    <input type="number" id="result-amrap" class="result-input" placeholder="Ex: 300 (repetições)" min="0" step="1">
+                    <!-- For For Time -->
+                    <input type="text" id="result-time" class="result-input" placeholder="Ex: 06:00 (MM:SS)" pattern="[0-9]{1,3}:[0-5][0-9]">
+                    <span class="hint" id="result-hint"></span>
+                </div>
+
+                <!-- Conversion Type -->
+                <div class="form-group">
+                    <label for="conversion-type">Tipo de Conversão</label>
+                    <select id="conversion-type" required>
+                        <option value="" disabled selected>Selecione o tipo de conversão</option>
+                        <option value="rx-to-scale">RX &#8594; Scale</option>
+                        <option value="scale-to-rx">Scale &#8594; RX</option>
+                    </select>
+                </div>
+
+                <!-- Conversion Percentage -->
+                <div class="form-group">
+                    <label for="percentage">Porcentagem de Conversão (%)</label>
+                    <div class="input-with-icon">
+                        <input type="number" id="percentage" placeholder="Ex: 20" min="1" max="100" required>
+                        <span class="icon">%</span>
+                    </div>
+                </div>
+
+                <button type="submit" id="calculate-btn">
+                    <span>Calcular</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </form>
+
+            <div id="result-display" class="result-display hidden">
+                <h3>Resultado Convertido</h3>
+                <div class="final-value" id="final-value">--</div>
+                <div class="calculation-details" id="calculation-details"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
