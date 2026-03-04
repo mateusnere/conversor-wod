@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     wodTypeSelect.addEventListener('change', (e) => {
         const type = e.target.value;
         resultGroup.style.display = 'block';
-        
+
         // Reset inputs
         resultTimeInput.value = '';
         resultAmrapInput.value = '';
@@ -35,6 +35,43 @@ document.addEventListener('DOMContentLoaded', () => {
             resultAmrapInput.classList.add('active');
             resultAmrapInput.required = true;
             resultHint.textContent = 'Apenas números inteiros (ex: 300)';
+        }
+    });
+
+    // Handle auto-formatting for the time input (MM:SS)
+    resultTimeInput.addEventListener('input', (e) => {
+        let val = e.target.value;
+
+        if (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward') {
+            return;
+        }
+
+        let cleanVal = val.replace(/[^\d:]/g, '');
+        if (cleanVal !== val) {
+            e.target.value = cleanVal;
+            val = cleanVal;
+        }
+
+        if (val.includes(':')) {
+            const parts = val.split(':');
+            let mins = parts[0];
+            let secs = parts[1] || '';
+
+            if (secs.length > 2) secs = secs.slice(0, 2);
+            if (mins.length > 3) mins = mins.slice(0, 3);
+
+            let newVal = mins + ':' + secs;
+            if (val !== newVal) {
+                e.target.value = newVal;
+            }
+            return;
+        }
+
+        if (val.length === 2 && e.inputType === 'insertText') {
+            e.target.value = val + ':';
+        } else if (val.length > 2 && (!e.inputType || e.inputType.includes('Paste') || e.inputType.includes('Drop'))) {
+            if (val.length > 5) val = val.slice(0, 5);
+            e.target.value = val.slice(0, 2) + ':' + val.slice(2, 4);
         }
     });
 
@@ -125,10 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Display results
         finalValue.textContent = resultStr;
         calculationDetails.textContent = `Cálculo: ${detailsStr}`;
-        
+
         resultDisplay.classList.remove('hidden');
         // Trigger reflow for animation
-        void resultDisplay.offsetWidth; 
+        void resultDisplay.offsetWidth;
         resultDisplay.classList.add('visible');
     });
 });
